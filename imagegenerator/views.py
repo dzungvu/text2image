@@ -5,7 +5,7 @@ import torch
 # Load the Stable Diffusion model
 model_id = "CompVis/stable-diffusion-v1-4"
 pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-pipe = pipe.to("mps")
+pipe = pipe.to("cuda")
 
 def generate_image(request):
     image_url = None
