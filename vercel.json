@@ -4,7 +4,7 @@
       {
         "src": "text2image/wsgi.py",
         "use": "@vercel/python",
-        "config": { "maxLambdaSize": "6144mb", "runtime": "python3.11" }
+        "config": { "maxLambdaSize": "500mb", "runtime": "python3.11" }
       }
     ],
     "routes": [
