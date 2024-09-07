@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-4$yb(ji@2#6qqd6-l%4dzpjrpt_xa$(t@qyabf_7az9a(keg@j"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', 'localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "imagegenerator.apps.ImagegeneratorConfig",
+    "translate.apps.TranslateConfig",
 ]
 
 MIDDLEWARE = [

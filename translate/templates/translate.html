@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Text Translator</title>
+	<script>
+		async function translateText(event) {
+			event.preventDefault();
+			const text = document.getElementById('text').value;
+			const response = await fetch('api/translate/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				body: new URLSearchParams({
+					'text': text
+				})
+			});
+			const data = await response.json();
+			if (response.ok) {
+				document.getElementById('translated_text').innerText = data.translated_text;
+			} else {
+				document.getElementById('translated_text').innerText = data.error;
+			}
+		}
+	</script>
+</head>
+<body>
+	<h1>Text Translator</h1>
+	<form onsubmit="translateText(event)">
+		<label for="text">Enter text:</label>
+		<input type="text" id="text" name="text" required>
+		<button type="submit">Translate</button>
+	</form>
+	<h2>Translated Text:</h2>
+	<p id="translated_text"></p>
+</body>
+</html>
