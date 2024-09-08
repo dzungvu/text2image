@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Text Classification</title>
+	<script>
+		function classifyText(event) {
+			event.preventDefault(); // Prevent the form from submitting the traditional way
+
+			const form = event.target;
+			const formData = new FormData(form);
+
+			// Collect selected options
+			const selectedOptions = [];
+			form.querySelectorAll('input[name="options"]:checked').forEach(option => {
+				selectedOptions.push({
+					id: option.value,
+					label: option.dataset.label
+				});
+			});
+
+			// Add selected options to formData
+			formData.append('selected_options', JSON.stringify(selectedOptions));
+
+			fetch(form.action, {
+				method: 'POST',
+				body: formData,
+				headers: {
+					'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+				}
+			})
+			.then(response => response.json())
+			.then(data => {
+				document.getElementById('result').innerText = 'Classification Result: ' + data.result + ' (ID: ' + data.id + ')';
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+		}
+	</script>
+</head>
+<body>
+	<h1>Text Classification</h1>
+	<form method="post" action="{% url 'classify_text' %}" onsubmit="classifyText(event)">
+		{% csrf_token %}
+		<textarea name="text" rows="4" cols="50"></textarea><br>
+		<h3>Select Options:</h3>
+		<label><input type="checkbox" name="options" value="1" data-label="history"> History</label><br>
+		<label><input type="checkbox" name="options" value="2" data-label="geography"> Geography</label><br>
+		<label><input type="checkbox" name="options" value="3" data-label="math"> Math</label><br>
+		<label><input type="checkbox" name="options" value="4" data-label="science"> Science</label><br>
+		<label><input type="checkbox" name="options" value="5" data-label="literature"> Literature</label><br>
+		<label><input type="checkbox" name="options" value="6" data-label="social"> Social</label><br>
+		<input type="submit" value="Classify">
+	</form>
+	<div id="result"></div> <!-- Section to display the classification result -->
+</body>
+</html>

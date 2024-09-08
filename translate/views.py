@@ -16,15 +16,21 @@ def translate_text(request):
 
 
 model_name = "VietAI/envit5-translation"
-tokenizer = AutoTokenizer.from_pretrained(model_name)  
-model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+tokenizer = None
+model = None
 # Check if MPS is available and use it, otherwise fall back to CPU
-device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
-model.to(device)
+device = None
 
 @csrf_exempt
 def translate_api(request):
+    global device, model, tokenizer
     if request.method == 'POST':
+        if tokenizer == None or model == None or device == None:
+            device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
+            tokenizer = AutoTokenizer.from_pretrained(model_name)
+            model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+            model.to(device)
+
         text = request.POST.get('text')
         inputs = [f'vi: {text}']
         if text:

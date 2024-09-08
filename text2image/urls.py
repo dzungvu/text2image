@@ -21,4 +21,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('imagegenerator.urls')),
     path('translate/', include('translate.urls')),
+    path('classify/', include('classify.urls')),
 ]

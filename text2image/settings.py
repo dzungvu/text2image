@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "imagegenerator.apps.ImagegeneratorConfig",
     "translate.apps.TranslateConfig",
+    "classify.apps.ClassifyConfig",
 ]
 
 MIDDLEWARE = [
